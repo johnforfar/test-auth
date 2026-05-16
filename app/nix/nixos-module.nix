@@ -71,8 +71,20 @@ in
     # is whitelisted for this id). Not a secret.
     services.xnode-auth.enable = true;
     services.xnode-auth.domains."test-auth" = {
+      # dev branch uses role-based access (users → roles → paths).
+      # All authenticated ethereum users get the "anyone" role, which
+      # has access to all auth-gated paths.
       accessList = {
-        "regex:^ethereum:.*$" = { };
+        users = {
+          "regex:^ethereum:.*$" = {
+            roles = [ "anyone" ];
+          };
+        };
+        roles = {
+          "anyone" = {
+            paths = ".*";
+          };
+        };
       };
       paths = [
         "/protected"
