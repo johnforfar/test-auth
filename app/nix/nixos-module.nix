@@ -76,7 +76,11 @@ in
       # has access to all auth-gated paths.
       accessList = {
         users = {
-          "regex:^ethereum:.*$" = {
+          # Accept both legacy `eth:` and new `ethereum:` prefixes — the
+          # globalSetup script in xnode-v10-tests uses `eth:` (older
+          # xnode-auth main-branch convention), while dev-branch
+          # xnode-auth uses `ethereum:`. Both are valid for the test.
+          "regex:^(eth|ethereum):.*$" = {
             roles = [ "anyone" ];
           };
         };
